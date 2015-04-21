@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+<xmodule
+    xmlns="http://www.crowdfusion.com/schema/xmod"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.crowdfusion.com/schema/xmod http://www.crowdfusion.com/schema/crowdfusion-xmod-2.0.xsd">
+
+    <info xbuilder="EditCmsBuilder"/>
+
+    <fieldset>
+        <title>Integration Code</title>
+        <group>
+            <textarea id="#tracker" width="full" rows="5" />
+            <textarea id="#htmlhead" width="full" rows="5" />
+            <textarea id="#badge" width="full" rows="5" />
+            <textarea id="#list-badge" width="full" rows="5" />
+        </group>
+    </fieldset>
+
+</xmodule>

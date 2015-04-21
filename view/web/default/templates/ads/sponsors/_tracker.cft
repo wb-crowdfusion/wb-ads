@@ -1,0 +1,32 @@
+{% /* $Id: $ */ %}
+{% /*
+Renders the tracking code associated with a sponsor.
+should be included with inherit=true from parent
+*/ %}
+
+{% set Container %}{% end %}
+
+{% begin contents %}
+    {% set DivID %}{% filter slugs-create?value=Data:Container %}-{% filter slugs-create?value=Data:ID %}{% endset %}
+    {% if Data:#sponsor.TagLinkIsActive %}
+        <span id="sponsor-tracker-%DivID%" class="sponsor-tracker sponsor-tracker-%Element.Slug% sponsor-tracker-%#sponsor.TagSlug% clearfix">
+            {% filter wbdisplay-dynamic?value=Data:#sponsor.#tracker %}
+        </span>
+    {% endif %}
+{% end %}
+
+{% begin rss-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin txt-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin js-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin xml-contents %}
+{% /* no implementation here */ %}
+{% end %}

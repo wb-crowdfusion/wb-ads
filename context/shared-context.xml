@@ -1,0 +1,23 @@
+<?xml version='1.0'?>
+<context
+    xmlns="http://www.crowdfusion.com/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.crowdfusion.com/schema/context http://www.crowdfusion.com/schema/crowdfusion-context-2.0.xsd">
+
+    <events>
+        <bind name="Node.@wb-sponsors.permit.add"           ref="DefaultPermissionsHandler" method="add"     priority="10" pass-context="true"/>
+        <bind name="Node.@wb-sponsors.permit.edit"          ref="DefaultPermissionsHandler" method="edit"    priority="10" pass-context="true"/>
+        <bind name="Node.@wb-sponsors.permit.publish"       ref="DefaultPermissionsHandler" method="publish" priority="10" pass-context="true"/>
+        <bind name="Node.@wb-sponsors.permit.unpublish"     ref="DefaultPermissionsHandler" method="publish" priority="10" pass-context="true"/>
+        <bind name="Node.@wb-sponsors.permit.delete"        ref="DefaultPermissionsHandler" method="delete"  priority="10" pass-context="true"/>
+        <bind name="Node.@wb-sponsors.permit.undelete"      ref="DefaultPermissionsHandler" method="delete"  priority="10" pass-context="true"/>
+        <bind name="Node.@wb-sponsors.permit.get"           ref="DefaultPermissionsHandler" method="items"   priority="10" pass-context="true"/>
+
+        <bind name="Node.@wb-sponsors.permit.updateMeta"    ref="DefaultPermissionsHandler" method="edit"    priority="10" pass-context="true"/>
+        <bind name="Node.@wb-sponsors.permit.incrementMeta" ref="DefaultPermissionsHandler" method="edit"    priority="10" pass-context="true"/>
+        <bind name="Node.@wb-sponsors.permit.decrementMeta" ref="DefaultPermissionsHandler" method="edit"    priority="10" pass-context="true"/>
+        <bind name="Node.@wb-sponsors.permit.addTag"        ref="DefaultPermissionsHandler" method="edit"    priority="10" pass-context="true"/>
+        <bind name="Node.@wb-sponsors.permit.removeTag"     ref="DefaultPermissionsHandler" method="edit"    priority="10" pass-context="true"/>
+    </events>
+
+</context>

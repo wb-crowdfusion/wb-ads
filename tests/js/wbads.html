@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>tests :: wbads</title>
+    <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.16.0.css">
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture"></div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//code.jquery.com/qunit/qunit-1.16.0.js"></script>
+<script src="../../view/shared/assets/js/wb/ads/2.2.0/ads.js"></script>
+<script src="../../view/shared/assets/js/wb/ads/2.2.0/krux.js"></script>
+
+<script>
+    QUnit.asyncTest("basic load", function (assert) {
+
+        expect(33);
+
+
+        /**
+         * make sure triggers are called
+         */
+        var callbacks = ["init", "enable.services", "slot.discovery", "slot.define", ""];
+
+        $.each(callbacks, function (index) {
+            wbads.defineCallback("pre." + callbacks[index], function () {
+                assert.ok(true, 'pre.' + callbacks[index]);
+            });
+            wbads.defineCallback("post." + callbacks[index], function () {
+                assert.ok(true, 'post.' + callbacks[index]);
+            });
+        });
+
+
+        /**
+         * validate all slots are found and defined
+         */
+
+        var org_defineSlot = googletag.defineSlot;
+
+        var assertsDefineSlot = {
+            "ad-545ab18c790f0": {
+                slotUnit: "/55153744/ellen/home",
+                dfpAdSizes: 300
+            },
+            "ad-545ab18c79552": {
+                slotUnit: "/55153744/ellen/home",
+                dfpAdSizes: 300
+            }, "testthis": {
+                slotUnit: "/55153744/ellen/home",
+                dfpAdSizes: 970
+            }, "dfpAd-ellen-4": {
+                slotUnit: "/55153744/ellen/home",
+                dfpAdSizes: 300
+            }, "dfpAd-ellen-5": {
+                slotUnit: "/55153744/ellen/home/skin",
+                dfpAdSizes: 1
+            }
+        };
+
+
+        googletag.defineSlot = function (slotUnit, dfpAdSizes, divId) {
+
+            assert.ok(slotUnit == assertsDefineSlot[divId]['slotUnit'], slotUnit);
+
+            return org_defineSlot(slotUnit, dfpAdSizes, divId)
+        };
+
+        wbads.init('55153744', 'ellen', 'home', {quantcast: {enabled: false}, device_view: "main"},
+                {
+                    collapse_empty_divs: true,
+                    debug_enabled: true,
+                    global_targeting: {tag: "", category: "kids"}
+                }
+        );
+
+        wbads.addSlot("ad-545ab18c790f0", null, "medium_rectangle", null, false, false);
+        //wbads.setSlotTargetingParam("ad-545ab18c790f0", "pos", "inpost");
+
+        wbads.addSlot("ad-545ab18c79552", null, "medium_rectangle", null, false, false);
+        // wbads.setSlotTargetingParam("ad-545ab18c79552", "pos", "bottom");
+
+        wbads.buildSlots();
+
+        wbads.showAds();
+
+        var times = 0;
+        googletag.pubads().addEventListener('slotRenderEnded', function (event) {
+            // console.log('Slot has been rendered:');
+            times++;
+            if (times == 6) QUnit.start();
+            assert.ok(true, 'slotRenderEnded ');
+
+
+        });
+
+        /*  $.each(assertsDefineSlot,function(index){
+         var div = $('#'+index+' iframe');
+         assert.ok(1,div.length);
+
+         })*/
+
+    });
+
+
+
+    QUnit.test("re #186 - wb-ads :: allow category global targeting parameter to be set via init args or auto-detected", function (assert) {
+
+        expect(1);
+        googletag.pubads().clear();
+        googletag.pubads().refresh();
+        wbads.init('55153744', 'ellen', false, {
+                    data_store: 'testStore',
+                    quantcast: {enabled: false},
+                    device_view: "main"
+                },
+                {
+                    collapse_empty_divs: true,
+                    debug_enabled: true,
+                    global_targeting: {tag: "", category: "kids"}
+                }
+        );
+
+
+
+        assert.ok("kids" == googletag.service_manager_instance.a.publisher_ads.j.category, "Category targeting added through init options re #186");
+
+
+
+    });
+
+    QUnit.test("re #185 wb-ads :: make adzone an optional param or support empty string as value", function (assert) {
+
+
+        googletag.defineSlot = function (slotUnit, dfpAdSizes, divId) {
+
+            assert.ok(slotUnit == '/55153744/ellen' || slotUnit == '/55153744/ellen/skin');
+
+            return org_defineSlot(slotUnit, dfpAdSizes, divId)
+        };
+        // googletag.pubads().refresh( [googletag.slot_manager_instance.b['testthis']]);
+        wbads.init('55153744', 'ellen', false, {
+                    data_store: 'testStore',
+                    quantcast: {enabled: false},
+                    device_view: "main"
+                },
+                {
+                    collapse_empty_divs: true,
+                    debug_enabled: true,
+                    global_targeting: {tag: ""}
+                }
+        );
+
+        wbads.addSlot("ad-545ab18c790f0", null, "medium_rectangle", null, false, false);
+
+        assert.ok(wbads.getEnabled());
+
+    });
+
+
+</script>
+
+<div id="testthis" align="center" class="ad-container wbads" data-adsize="leaderboard_flex" data-refresh="true" data-pos="top">1</div>
+<div align="center" class="ad-container wbads" data-adsize="medium_rectangle_flex" data-pos="top" data-refresh="true">2</div>
+<div align="center" class="ad-container wbads" data-adsize="skin">3</div>
+<div align="center" class="ad-container wbads" data-pos="interstitial" data-interstitial="true">4</div>
+<div id="ad-545ab18c790f0" class="ad wbads" data-filled="false">5</div>
+<div id="ad-545ab18c79552" class="ad wbads" data-filled="false">6</div>
+
+</body>
+</html>

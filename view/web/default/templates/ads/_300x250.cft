@@ -1,0 +1,37 @@
+{% /* $Id: _300x250.cft 603 2011-07-20 04:10:33Z 12dnetworks $ */ %}
+{% /*
+multiple instances of the same size per page should increment pos
+but this is up to the template that calls it.
+
+*/ %}
+
+{% set pos %}3{% end %}
+{% set Width %}300{% end %}
+{% set Height %}250{% end %}
+{% set Tile %}%pos%{% end %}
+
+
+{% begin contents %}
+{% template ads/_tpix-ad.cft?inherit=true %}
+{% end %}
+
+
+{% begin rss-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin txt-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin js-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin json-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin xml-contents %}
+{% /* no implementation here */ %}
+{% end %}

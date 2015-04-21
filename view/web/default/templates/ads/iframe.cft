@@ -1,0 +1,81 @@
+{% /* $Id: _footer-scripts.cft 2786 2011-12-16 21:24:20Z 12dnetworks $ */ %}
+{% /*
+this is the tpixads iframe loader
+*/ %}
+
+{% setGlobal BrowserCacheTime %}{% filter display-calc?formula=60*60*24*365 %}{% end %}
+{% setGlobal FullPageCacheTime %}86400{% end %}
+{% set CacheTime %}86400{% end %}
+
+{% begin contents %}
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<title>IFrame Ad Loader</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<meta name="robots" content="noindex,nofollow" />
+<base target="_top" />
+{% asset js?src=js/tpixads.js&min=true %}
+<script type="text/javascript">
+var params = tpixAdConfig.getParamsFromUri( decodeURIComponent(self.location.href) );
+for (var param in params) {
+    tpixAdConfig.setParam(param, params[param]);
+}
+tpixAdConfig.init(
+    tpixAdConfig.getParam("siteid"),
+    tpixAdConfig.getParam("adzone"),
+    tpixAdConfig.getParam("debug")
+);
+
+// enable quantcast if we have it in the url
+var _quantcast = tpixAdConfig.getParam("quantcast") || false;
+if (_quantcast != false) tpixAdConfig.setQuantcast(true);
+tpixAdConfig.embedQuantCastDeliveryTag();
+
+//enable AudienceScience if we have it in the url
+var _rsi = tpixAdConfig.getParam("rsi") || false;
+if (_rsi != false) tpixAdConfig.setAudienceScience(true);
+
+// reset the ord if we have it
+var ord = tpixAdConfig.getParam("ord") || false;
+if (ord != false) tpixAdConfig.ord = ord;
+
+// determine if we should refresh and
+// if so, how long
+var refresh = parseInt(tpixAdConfig.getParam("refresh")) || false;
+if (refresh != false && !isNaN(refresh)) {
+    if (refresh < 5 || refresh > 300) refresh = 10;
+	refresh = refresh * 1000;
+    setTimeout("refreshAd()", refresh);
+}
+
+// create the ad
+var w = tpixAdConfig.getParam("width") || 728;
+var h = tpixAdConfig.getParam("height") || 90;
+var alth = tpixAdConfig.getParam("altheight") || false;
+var altw = tpixAdConfig.getParam("altw") || false;
+var t = tpixAdConfig.getParam("tile") || false;
+var cpos = tpixAdConfig.getParam("cpos") || false;
+var ad = new tpixAd(w, h, t, false, alth, altw, cpos);
+
+function refreshAd() {
+    self.location.href = ad.getRefreshURL();
+}
+</script>
+
+</head>
+
+<body style="margin: 0px; padding: 0px;">
+
+<script type="text/javascript">
+ad.write();
+tpixAdConfig.embedQuantCastMeasurementTag();
+tpixAdConfig.embedAudienceSciencePixelTag();
+</script>
+
+</body>
+</html>
+{% end %}

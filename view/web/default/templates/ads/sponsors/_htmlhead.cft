@@ -1,0 +1,29 @@
+{% /* $Id: $ */ %}
+{% /*
+Renders the html head associated with a sponsor.
+should be included with inherit=true from parent
+*/ %}
+
+{% set Container %}{% end %}
+
+{% begin contents %}
+    {% if Data:#sponsor.TagLinkIsActive %}
+        {% filter wbdisplay-dynamic?value=Data:#sponsor.#htmlhead %}
+    {% endif %}
+{% end %}
+
+{% begin rss-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin txt-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin js-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin xml-contents %}
+{% /* no implementation here */ %}
+{% end %}

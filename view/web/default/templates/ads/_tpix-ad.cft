@@ -1,0 +1,63 @@
+{% /* $Id: _300x250.cft 603 2011-07-20 04:10:33Z 12dnetworks $ */ %}
+{% /*
+multiple instances of the same size per page should increment pos
+but this is up to the template that calls it.
+
+params:
+pos (default=1)
+*/ %}
+
+{% set Width %}728{% end %}
+{% set Height %}90{% end %}
+{% set Tile %}1{% end %}
+{% set RefreshTime %}false{% end %}
+{% set AltHeight %}false{% end %}
+{% set AltWidth %}%Width%{% end %}
+{% set cpos %}false{% end %}
+
+
+{% begin contents %}
+{% if wbads-enabled || wbads-placers-enabled %}
+<div class="ad-wrap ad-%Width%x%Height% ad-%Width%x%Height%-pos-%Tile%">
+    <div class="ad">
+    {% if wbads-enabled %}
+        <script type="text/javascript">
+            // width, height, tile, refresh_time, altheight, altwidth, cpos
+            var ad = new tpixAd(%Width%, %Height%, %Tile%, %RefreshTime%, %AltHeight%, %AltWidth%, '%cpos%');
+            ad.write();
+        </script>
+    {% else %}
+        {% if wbads-placers-enabled %}
+            <div style="background-color: #fff; width: %Width%px; height: %Height%px; text-align: center; color: #000; margin: auto;">
+                <div style="padding: 15px;">
+                    <strong>%Width%x%Height% AD</strong><br />
+                    <small>tpixAd(%Width%, %Height%, %Tile%, %RefreshTime%, %AltHeight%, %AltWidth%, '%cpos%');</small>
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+    </div>
+</div>
+{% endif %}
+{% end %}
+
+
+{% begin rss-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin txt-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin js-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin json-contents %}
+{% /* no implementation here */ %}
+{% end %}
+
+{% begin xml-contents %}
+{% /* no implementation here */ %}
+{% end %}

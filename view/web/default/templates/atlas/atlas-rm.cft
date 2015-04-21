@@ -1,0 +1,20 @@
+{% /* $Id$ */ %}
+{% /*
+this is the iframebuster file for Atlas
+*/ %}
+
+{% setGlobal BrowserCacheTime %}{% filter display-calc?formula=60*60*24*365 %}{% end %}
+{% setGlobal FullPageCacheTime %}86400{% end %}
+{% set CacheTime %}86400{% end %}
+
+{% begin contents %}
+<html>
+<head>
+</head>
+<body>
+<script src='http://rmd.atdmt.com/tl/newIframeScript.js'> </script>
+
+
+</body>
+</html>
+{% end %}
