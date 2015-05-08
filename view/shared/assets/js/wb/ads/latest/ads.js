@@ -133,7 +133,7 @@ var wbads = (function($, window, document, undefined) {
     var ad_sizes_list = {
         main: {
             leaderboard: [[728, 90]],
-            leaderboard_flex: [[970, 250], [970, 66], [1010, 150], [1010, 250], [728, 90]],
+            leaderboard_flex: [[728, 90], [970, 66], [1010, 150], [970, 250], [1010, 250]],
             medium_rectangle: [[300, 250]],
             medium_rectangle_flex: [[300, 250], [300, 600]],
             skin: [[1, 1]]
