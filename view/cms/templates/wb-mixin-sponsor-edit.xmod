@@ -4,13 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.crowdfusion.com/schema/xmod http://www.crowdfusion.com/schema/crowdfusion-xmod-2.0.xsd">
 
-    <info xbuilder="EditCmsBuilder"/>
+  <info xbuilder="EditCmsBuilder"/>
 
-    <fieldset>
-        <title>Sponsored By</title>
-        <group>
-            <tagwidget id="#sponsor" width="half" />
-        </group>
-    </fieldset>
+  <fieldset>
+    <title>Sponsored By</title>
+    <group>
+      <tagwidget id="#sponsor" width="half"/>
+    </group>
+  </fieldset>
 
 </xmodule>

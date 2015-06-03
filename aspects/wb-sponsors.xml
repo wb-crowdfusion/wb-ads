@@ -4,29 +4,29 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.crowdfusion.com/schema/aspect http://www.crowdfusion.com/schema/crowdfusion-aspect-2.0.xsd">
 
-    <info>
-        <name>WB Primary: Sponsors</name>
-        <description>Provides fields for sponsors.</description>
-        <elementmode>many</elementmode>
-    </info>
+  <info>
+    <name>WB Primary: Sponsors</name>
+    <description>Provides fields for sponsors.</description>
+    <elementmode>many</elementmode>
+  </info>
 
-    <meta_defs>
-        <meta id="#tracker">
-            <title>Tracking Pixel</title>
-            <validation datatype="html" allowedtags="*" max="64K" />
-        </meta>
-        <meta id="#htmlhead">
-            <title>Append to HTML Head Tag (on permalink)</title>
-            <validation datatype="html" allowedtags="*" max="64K" />
-        </meta>
-        <meta id="#badge">
-            <title>Badge (on permalink)</title>
-            <validation datatype="html" allowedtags="*" max="64K" />
-        </meta>
-        <meta id="#list-badge">
-            <title>List Badge</title>
-            <validation datatype="html" allowedtags="*" max="64K" />
-        </meta>
-    </meta_defs>
+  <meta_defs>
+    <meta id="#tracker">
+      <title>Tracking Pixel</title>
+      <validation datatype="html" allowedtags="*" max="64K"/>
+    </meta>
+    <meta id="#htmlhead">
+      <title>Append to HTML Head Tag (on permalink)</title>
+      <validation datatype="html" allowedtags="*" max="64K"/>
+    </meta>
+    <meta id="#badge">
+      <title>Badge (on permalink)</title>
+      <validation datatype="html" allowedtags="*" max="64K"/>
+    </meta>
+    <meta id="#list-badge">
+      <title>List Badge</title>
+      <validation datatype="html" allowedtags="*" max="64K"/>
+    </meta>
+  </meta_defs>
 
 </aspect>

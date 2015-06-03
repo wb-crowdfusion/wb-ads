@@ -4,17 +4,17 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.crowdfusion.com/schema/aspect http://www.crowdfusion.com/schema/crowdfusion-aspect-2.0.xsd">
 
-    <info>
-        <name>WB Mixin: Sponsor</name>
-        <description>Given to elements that can be associated with a sponsor.</description>
-        <elementmode>many</elementmode>
-    </info>
+  <info>
+    <name>WB Mixin: Sponsor</name>
+    <description>Given to elements that can be associated with a sponsor.</description>
+    <elementmode>many</elementmode>
+  </info>
 
-    <tag_defs>
-        <tag quickadd="false" multiple="false" direction="out">
-            <title>Sponsor</title>
-            <partial aspect="@wb-sponsors" role="#sponsor" />
-        </tag>
-    </tag_defs>
+  <tag_defs>
+    <tag quickadd="false" multiple="false" direction="out">
+      <title>Sponsor</title>
+      <partial aspect="@wb-sponsors" role="#sponsor"/>
+    </tag>
+  </tag_defs>
 
 </aspect>

@@ -1,33 +1,29 @@
 <?xml version='1.0'?>
 <plugin>
+  <info>
+    <title>WB - Ads</title>
+    <provider>Warner Bros, Inc.</provider>
+    <description>Provides functionality for ad providers, sponsoring content and ad tracking.</description>
+    <priority>100</priority>
+    <version>2.2.3</version>
+  </info>
 
-    <info>
-        <title>WB - Ads</title>
-        <provider>Warner Bros, Inc.</provider>
-        <description>Provides functionality for ad providers, sponsoring content and ad tracking.</description>
-        <priority>100</priority>
-        <version>2.2.3-dev</version>
-        <license></license>
-        <dependencies>wb-lib</dependencies>
-        <cfversions>2.3.7</cfversions>
-    </info>
-
-    <config>
-        <![CDATA[
+  <config>
+    <![CDATA[
 $properties['wbads.siteId'] = '';
 $properties['wbads.enabled'] = ($_SERVER['ENVIRONMENT'] == 'stage') || ($_SERVER['ENVIRONMENT'] == 'prod');
 $properties['wbads.placers.enabled'] = ($_SERVER['ENVIRONMENT'] != 'prod');
 $properties['wbads.quantcast.enabled'] = ($_SERVER['ENVIRONMENT'] == 'stage') || ($_SERVER['ENVIRONMENT'] == 'prod');
 $properties['wbads.audiencescience.enabled'] = ($_SERVER['ENVIRONMENT'] == 'stage') || ($_SERVER['ENVIRONMENT'] == 'prod');
         ]]>
-    </config>
+  </config>
 
-    <permissions>
-        <permission slug="wb-sponsors-add"     title="Add Sponsors" />
-        <permission slug="wb-sponsors-edit"    title="Edit Sponsors" />
-        <permission slug="wb-sponsors-publish" title="Publish Sponsors" />
-        <permission slug="wb-sponsors-delete"  title="Delete Sponsors" />
-        <permission slug="wb-sponsors-items"   title="List Sponsors" />
-    </permissions>
+  <permissions>
+    <permission slug="wb-sponsors-add" title="Add Sponsors"/>
+    <permission slug="wb-sponsors-edit" title="Edit Sponsors"/>
+    <permission slug="wb-sponsors-publish" title="Publish Sponsors"/>
+    <permission slug="wb-sponsors-delete" title="Delete Sponsors"/>
+    <permission slug="wb-sponsors-items" title="List Sponsors"/>
+  </permissions>
 
 </plugin>
