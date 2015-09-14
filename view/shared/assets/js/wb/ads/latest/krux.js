@@ -55,25 +55,30 @@ window.Krux||((Krux=function(){Krux.q.push(arguments)}).q=[]);
      * Helper function to retrieve krux data from localstorage or cookies.
      *
      * @param {string} n
+     * @param {string} prefix
      * @returns {*}
      */
-    function retrieve(n) {
-        var m, k = 'kx' + n, results;
-        if (w.localStorage) {
-            results =  w.localStorage[k] || '';
-        } else if (navigator.cookieEnabled) {
-            m = d.cookie.match(k + '=([^;]*)');
-            results = m && encodeURIComponent(m[1]) || '';
-        } else {
-            results = '';
-        }
-        return results;
+    function retrieve(n, prefix) {
+      var m, k = prefix + n;
+      if (w.localStorage) {
+          return w.localStorage[k] || '';
+      } else if (navigator.cookieEnabled) {
+          m = d.cookie.match(k + '=([^;]*)');
+          return (m && unescape(m[1])) || '';
+      }
+      return '';
     }
 
     wbads.defineCallback('pre.enable.services', function() {
         // intentional late assignment of krux data
-        w.Krux.user = retrieve('user');
-        w.Krux.segments = (retrieve('segs') && retrieve('segs').split(',')) || [];
+        var user = retrieve('user', 'kxwarnerbros');
+        if (user) {
+            Krux.user = retrieve('user', 'kxwarnerbros');
+            Krux.segments = retrieve('segs', 'kxwarnerbros') && retrieve('segs', 'kxwarnerbros').split(',') || [];
+        } else {
+            Krux.user = retrieve('user', 'kx');
+            Krux.segments = retrieve('segs', 'kx') && retrieve('segs', 'kx').split(',') || [];
+        }
 
         wbads.setGlobalTargetingParam('ksg', w.Krux.segments);
         wbads.setGlobalTargetingParam('kuid', w.Krux.user);
