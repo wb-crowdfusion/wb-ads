@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v2.2.4
+* issue #6: [wb/ads/2.2.4/krux.js] Update krux interchange and provide wbkrux window global for extraction of krux data for use in kwidget, etc.
+
+
 ## v2.2.3
 * issue #2: [wb/ads/2.2.3/ads.js] Changes ad size load order for less page jumping.
 

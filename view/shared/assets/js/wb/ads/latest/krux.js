@@ -18,71 +18,117 @@
 window.KRUX_CONFID = window.KRUX_CONFID || false;
 window.Krux||((Krux=function(){Krux.q.push(arguments)}).q=[]);
 
-(function(w, d, wbads) {
-    'use strict';
-    var ctagId = 'kxct',
-        ctag = d.getElementById(ctagId);
+(function(w, d, wbads, krux) {
+  'use strict';
 
-    if (ctag && !w.KRUX_CONFID) {
-        w.KRUX_CONFID = ctag.getAttribute('data-id') || false;
+  var ctagId = 'kxct',
+    ctag = d.getElementById(ctagId);
+
+  if (ctag && !w.KRUX_CONFID) {
+    w.KRUX_CONFID = ctag.getAttribute('data-id') || false;
+  }
+
+  if (!w.KRUX_CONFID) {
+    return;
+  }
+
+  if (!ctag) {
+    ctag = d.createElement('script');
+    ctag.type = 'text/javascript';
+    ctag.id = ctagId;
+    ctag.setAttribute('class', ctagId);
+    ctag.setAttribute('data-id', w.KRUX_CONFID);
+    ctag.setAttribute('data-timing', 'async');
+    ctag.setAttribute('data-version', '1.9');
+    var s = d.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ctag, s);
+
+    var k = d.createElement('script');
+    k.type = 'text/javascript';
+    k.async = true;
+    var m, src = (m=location.href.match(/\bkxsrc=([^&]+)/)) && decodeURIComponent(m[1]);
+    k.src = /^https?:\/\/([a-z0-9_\-\.]+\.)?krxd\.net(:\d{1,5})?\//i.test(src) ? src : src === 'disable' ? '' :
+        (location.protocol === 'https:' ? 'https:' : 'http:') + '//cdn.krxd.net/controltag?confid=' + w.KRUX_CONFID;
+    s.parentNode.insertBefore(k, s);
+  }
+
+  /**
+   * Helper function to retrieve krux data from localstorage or cookies.
+   *
+   * @param {string} n - the name of the property to retrieve
+   * @param {string} ns - the namespace the data is stored in.
+   * @returns {*}
+   */
+  function retrieve(n, ns) {
+    var m, k = ns + n;
+    if (w.localStorage) {
+      return w.localStorage[k] || '';
+    } else if (navigator.cookieEnabled) {
+      m = d.cookie.match(k + '=([^;]*)');
+      return m && decodeURIComponent(m[1]) || '';
     }
+    return '';
+  }
 
-    if (!w.KRUX_CONFID) {
-        return;
-    }
+  /**
+   * Returns the raw krux parameter or an empty string.
+   * @returns {string}
+   */
+  function getParam(n) {
+    return retrieve(n, 'kxwarnerbros') || retrieve(n, 'kx');
+  }
 
-    if (!ctag) {
-        ctag = d.createElement('script');
-        ctag.type = 'text/javascript';
-        ctag.id = ctagId;
-        ctag.setAttribute('class', ctagId);
-        ctag.setAttribute('data-id', w.KRUX_CONFID);
-        ctag.setAttribute('data-timing', 'async');
-        ctag.setAttribute('data-version', '1.9');
-        var s = d.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(ctag, s);
+  /**
+   * Returns the krux user or empty string
+   * @returns {string}
+   */
+  function getUser() {
+    return getParam('user');
+  }
 
-        var k = d.createElement('script');
-        k.type = 'text/javascript';
-        k.async = true;
-        var m, src = (m=location.href.match(/\bkxsrc=([^&]+)/)) && decodeURIComponent(m[1]);
-        k.src = /^https?:\/\/([a-z0-9_\-\.]+\.)?krxd\.net(:\d{1,5})?\//i.test(src) ? src : src === 'disable' ? '' :
-            (location.protocol === 'https:' ? 'https:' : 'http:') + '//cdn.krxd.net/controltag?confid=' + w.KRUX_CONFID;
-        s.parentNode.insertBefore(k, s);
-    }
+  /**
+   * Returns the krux segments/segs or empty array
+   * @returns {string[]}
+   */
+  function getSegments() {
+    var segs = getParam('segs');
+    return segs && segs.split(',') || [];
+  }
 
-    /**
-     * Helper function to retrieve krux data from localstorage or cookies.
-     *
-     * @param {string} n
-     * @param {string} prefix
-     * @returns {*}
-     */
-    function retrieve(n, prefix) {
-      var m, k = prefix + n;
-      if (w.localStorage) {
-          return w.localStorage[k] || '';
-      } else if (navigator.cookieEnabled) {
-          m = d.cookie.match(k + '=([^;]*)');
-          return (m && unescape(m[1])) || '';
-      }
-      return '';
-    }
+  /**
+   * Returns the krux data that can be used in gpt cust_params.
+   * @link https://support.google.com/dfp_premium/answer/1080597?vid=1-635782176383068807-3377878002
+   *
+   * @param {boolean} encode - defaults to true, when true encodes the entire result with encodeURIComponent
+   * @return {string}
+   */
+  function getGptCustParams(encode) {
+    encode = encode || true;
+    var ksg = getSegments();
+    var kuid = getUser();
+    var khost = encodeURIComponent(d.location.hostname);
+    var str = 'ksg=' + ksg + '&kuid=' + kuid + '&khost=' + khost;
+    return encode ? encodeURIComponent(str) : str;
+  }
 
-    wbads.defineCallback('pre.enable.services', function() {
-        // intentional late assignment of krux data
-        var user = retrieve('user', 'kxwarnerbros');
-        if (user) {
-            Krux.user = retrieve('user', 'kxwarnerbros');
-            Krux.segments = retrieve('segs', 'kxwarnerbros') && retrieve('segs', 'kxwarnerbros').split(',') || [];
-        } else {
-            Krux.user = retrieve('user', 'kx');
-            Krux.segments = retrieve('segs', 'kx') && retrieve('segs', 'kx').split(',') || [];
-        }
+  wbads.defineCallback('pre.enable.services', function() {
+    krux.user = getUser();
+    krux.segments = getSegments();
 
-        wbads.setGlobalTargetingParam('ksg', w.Krux.segments);
-        wbads.setGlobalTargetingParam('kuid', w.Krux.user);
-        wbads.setGlobalTargetingParam('khost', encodeURIComponent(d.location.hostname));
-    });
+    wbads.setGlobalTargetingParam('ksg', krux.segments);
+    wbads.setGlobalTargetingParam('kuid', krux.user);
+    wbads.setGlobalTargetingParam('khost', encodeURIComponent(d.location.hostname));
+  });
 
-}(window, document, window.wbads));
+  /**
+   * Attach helper functions to window so we can get krux data
+   * for other modules (like kwidget for customParams).
+   */
+  w.wbkrux = {
+    getParam: getParam,
+    getUser: getUser,
+    getSegments: getSegments,
+    getGptCustParams: getGptCustParams
+  };
+
+}(window, document, window.wbads, window.Krux));
