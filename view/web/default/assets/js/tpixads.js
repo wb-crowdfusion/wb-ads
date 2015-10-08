@@ -107,7 +107,7 @@ var tpixAdConfig = {
      */
     embedQuantCastDeliveryTag: function() {
         if (!this.quantcast.enabled) return;
-        document.write('<scr' + 'ipt src="http://pixel.quantserve.com/seg/' + _qoptions.qacct + '.js" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="//pixel.quantserve.com/seg/' + _qoptions.qacct + '.js" type="text/javascript"></scr' + 'ipt>');
     },
 
     /*
@@ -117,7 +117,7 @@ var tpixAdConfig = {
      */
     embedQuantCastMeasurementTag: function() {
         if (!this.quantcast.enabled) return;
-        document.write('<scr' + 'ipt src="http://edge.quantserve.com/quant.js" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="//edge.quantserve.com/quant.js" type="text/javascript"></scr' + 'ipt>');
     },
 
     /*
