@@ -185,7 +185,7 @@ var tpixAdConfig = {
     embedAudienceSciencePixelTag: function() {
         if (!this.rsi.enabled) return;
 		document.write('<scr' + 'ipt>function DM_prepClient(csid,client){client.DM_addEncToLoc("zone","' + this.getParam("adzone") + '");}</scr' + 'ipt>');
-		document.write('<scr' + 'ipt src="http://js.revsci.net/gateway/gw.js?csid=' + _rsioptions.csid + '&auto=t" type="text/javascript"></scr' + 'ipt>');
+		document.write('<scr' + 'ipt src="//js.revsci.net/gateway/gw.js?csid=' + _rsioptions.csid + '&auto=t" type="text/javascript"></scr' + 'ipt>');
     },
 
     /*

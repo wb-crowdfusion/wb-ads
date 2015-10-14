@@ -930,7 +930,7 @@ var wbads = (function($, window, document, undefined) {
      */
     function embedQuantCastDeliveryTag() {
         if (!settings.quantcast.enabled) return;
-        document.write('<scr' + 'ipt src="http://pixel.quantserve.com/seg/' + settings.quantcast.qacct + '.js" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="//pixel.quantserve.com/seg/' + settings.quantcast.qacct + '.js" type="text/javascript"></scr' + 'ipt>');
     }
 
 
