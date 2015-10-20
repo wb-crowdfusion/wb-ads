@@ -107,7 +107,7 @@ var tpixAdConfig = {
      */
     embedQuantCastDeliveryTag: function() {
         if (!this.quantcast.enabled) return;
-        document.write('<scr' + 'ipt src="http://pixel.quantserve.com/seg/' + _qoptions.qacct + '.js" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="//pixel.quantserve.com/seg/' + _qoptions.qacct + '.js" type="text/javascript"></scr' + 'ipt>');
     },
 
     /*
@@ -117,7 +117,7 @@ var tpixAdConfig = {
      */
     embedQuantCastMeasurementTag: function() {
         if (!this.quantcast.enabled) return;
-        document.write('<scr' + 'ipt src="http://edge.quantserve.com/quant.js" type="text/javascript"></scr' + 'ipt>');
+        document.write('<scr' + 'ipt src="//edge.quantserve.com/quant.js" type="text/javascript"></scr' + 'ipt>');
     },
 
     /*
@@ -185,7 +185,7 @@ var tpixAdConfig = {
     embedAudienceSciencePixelTag: function() {
         if (!this.rsi.enabled) return;
 		document.write('<scr' + 'ipt>function DM_prepClient(csid,client){client.DM_addEncToLoc("zone","' + this.getParam("adzone") + '");}</scr' + 'ipt>');
-		document.write('<scr' + 'ipt src="http://js.revsci.net/gateway/gw.js?csid=' + _rsioptions.csid + '&auto=t" type="text/javascript"></scr' + 'ipt>');
+		document.write('<scr' + 'ipt src="//js.revsci.net/gateway/gw.js?csid=' + _rsioptions.csid + '&auto=t" type="text/javascript"></scr' + 'ipt>');
     },
 
     /*

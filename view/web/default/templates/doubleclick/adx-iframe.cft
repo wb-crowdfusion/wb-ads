@@ -12,8 +12,7 @@ this is the iframebuster file for Doubleclick AdX
 <head>
 </head>
 <body>
-<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/js/adx_iframe.js"> </script>
-
+<script type="text/javascript" src="//pagead2.googlesyndication.com/pagead/js/adx_iframe.js"></script>
 
 </body>
 </html>

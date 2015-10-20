@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v2.2.5
+* issue #8: [wb/ads/2.2.5/*.js] Ensure all requests in wbads support https.
+
+
 ## v2.2.4
 * issue #6: [wb/ads/2.2.4/krux.js] Update krux interchange and provide wbkrux window global for extraction of krux data for use in kwidget, etc.
 
