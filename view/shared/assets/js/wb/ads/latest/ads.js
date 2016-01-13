@@ -685,9 +685,10 @@ var wbads = (function($, window, document, undefined) {
                                 googletag.display(adDiv.attr('id')); // just register the refreshable slot
                                 adDiv.data('registered', true);
                             });
+                        } else {
+                            pushCmd(function() { googletag.pubads().refresh([adSlotData]); }); // issue refresh call if already registered
+                            debug("showAds :: refreshing ad " + adDiv.attr('id'));
                         }
-                        pushCmd(function() { googletag.pubads().refresh([adSlotData]); });
-                        debug("showAds :: refreshing ad " + adDiv.attr('id'));
                     } else if (!filled) {
                         pushCmd(function() { googletag.display(adDiv.attr('id')); });
                         debug("showAds :: displaying ad " + adDiv.attr('id') + " for the first and only time!");
