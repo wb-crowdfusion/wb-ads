@@ -682,7 +682,8 @@ var wbads = (function($, window, document, undefined) {
                     if (refreshable) {
                         if (!registered) {
                             pushCmd(function() {
-                                googletag.display(adDiv.attr('id')); // just register the refreshable slot
+                                googletag.display(adDiv.attr('id')); // display the refreshable slot
+                                debug("showAds :: displaying ad " + adDiv.attr('id') + " - will REFRESH on next showAds()");
                                 adDiv.data('registered', true);
                             });
                         } else {
