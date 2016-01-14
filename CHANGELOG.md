@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v2.2.6
+* issue #10: [wb/ads/2.2.6/*.js] Refresh option makes 2 ad calls.
+
+
 ## v2.2.5
 * issue #8: [wb/ads/2.2.5/*.js] Ensure all requests in wbads support https.
 
