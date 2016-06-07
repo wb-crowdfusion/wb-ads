@@ -1,6 +1,11 @@
 # CHANGELOG
 
 
+## v2.2.7
+* issue #13: Enhancement: Ads Implementation – Add Contobox iFrame Buster.
+* issue #12: [wb/ads/2.2.7/krux.js] Update krux namespace.
+
+
 ## v2.2.6
 * issue #10: [wb/ads/2.2.6/*.js] Refresh option makes 2 ad calls.
 
