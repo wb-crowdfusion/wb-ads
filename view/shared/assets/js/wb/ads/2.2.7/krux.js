@@ -74,7 +74,7 @@ window.Krux||((Krux=function(){Krux.q.push(arguments)}).q=[]);
    * @returns {string}
    */
   function getParam(n) {
-    return retrieve(n, 'kxwarnerbros_') || retrieve(n, 'kx');
+    return retrieve(n, 'kxwarnerbros_') || retrieve(n, 'kxwarnerbros') || retrieve(n, 'kx');
   }
 
   /**
