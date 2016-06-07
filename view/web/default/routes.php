@@ -10,6 +10,10 @@ $routes = array(
     'view' => 'atlas/atlas-rm.cft',
 ),
 
+'/contobox/iframebuster\.html' => array (
+    'view' => 'contobox/iframebuster.cft',
+),
+
 '/doubleclick/adx_iframe\.html' => array (
     'view' => 'doubleclick/adx-iframe.cft',
 ),
