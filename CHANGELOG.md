@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v2.2.8
+* issue #15: Create method to override googletag.
+
+
 ## v2.2.7
 * issue #13: Enhancement: Ads Implementation – Add Contobox iFrame Buster.
 * issue #12: [wb/ads/2.2.7/krux.js] Update krux namespace.

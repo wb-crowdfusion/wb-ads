@@ -27,9 +27,6 @@
  *
  *     wbads.showAds();
  *
-
- *
- *
  */
 /*jslint browser: true, devel: true, todo: true, regexp: true */
 /*global jQuery */
@@ -52,12 +49,13 @@ if( typeof googletag === "undefined" ){
 /** used when quantcast enabled */
 var _qevents = _qevents || [];
 
-var wbads = (function($, window, document, undefined) {
+var wbads = (function($, googletag, window, document, undefined) {
     'use strict';
 
     var _this = Object.create({});
     var settings;
     var dfp_settings;
+    var googletag_provider = googletag;
 
     /** @type {string} unit_name - calculated from <tt>required_params</tt> */
     var unit_name       = "",
@@ -228,7 +226,7 @@ var wbads = (function($, window, document, undefined) {
      */
     Slot.prototype.refresh = function () {
         if (this.hasGptSlot()) {
-            googletag.pubads().refresh([this.gpt_slot_object]);
+            googletag_provider.pubads().refresh([this.gpt_slot_object]);
         }
         return this;
     };
@@ -276,7 +274,6 @@ var wbads = (function($, window, document, undefined) {
      *  setTargeting(key, value)
      *  Sets values for targeting keys on a particular ad slot.
      */
-
 
     /*
      * sets up the config object. (to be called explicitly from the page ie wbads.init('8310','Ellen','Homepage') )
@@ -334,26 +331,26 @@ var wbads = (function($, window, document, undefined) {
         pushCmd(function() {
             trigger("pre.enable.services");
 
-            if( dfp_settings.collapse_empty_divs ) googletag.pubads().collapseEmptyDivs();
-            if( dfp_settings.disable_initial_load ) googletag.pubads().disableInitialLoad();
-            if( dfp_settings.enable_single_request ) googletag.pubads().enableSingleRequest();
+            if( dfp_settings.collapse_empty_divs ) googletag_provider.pubads().collapseEmptyDivs();
+            if( dfp_settings.disable_initial_load ) googletag_provider.pubads().disableInitialLoad();
+            if( dfp_settings.enable_single_request ) googletag_provider.pubads().enableSingleRequest();
             /** async is the default, but it doesn't hurt to set explicitly here */
-            if( dfp_settings.enable_async_rendering ) googletag.pubads().enableAsyncRendering();
-            if( dfp_settings.enable_video_ads ) googletag.pubads().enableVideoAds();
+            if( dfp_settings.enable_async_rendering ) googletag_provider.pubads().enableAsyncRendering();
+            if( dfp_settings.enable_video_ads ) googletag_provider.pubads().enableVideoAds();
             /** noFetch processes the JavaScript but does not make any HTTP calls for ad slot contents. */
-            if( dfp_settings.no_fetch ) googletag.pubads().noFetch();
+            if( dfp_settings.no_fetch ) googletag_provider.pubads().noFetch();
             /** Disables the Google Publisher Console */
-            if( dfp_settings.disable_publisher_console ) googletag.pubads().disablePublisherConsole();
+            if( dfp_settings.disable_publisher_console ) googletag_provider.pubads().disablePublisherConsole();
 
             /** pass valid global targeting options thru */
             $.each(dfp_settings.global_targeting, function(key, value) {
                 if (key && value != '' && typeof value != 'undefined') {
-                    googletag.pubads().setTargeting(key, value);
+                    googletag_provider.pubads().setTargeting(key, value);
                     debug("pre.enable.services :: setting global param[" + key + "]=" + value);
                 }
             });
 
-            googletag.enableServices();
+            googletag_provider.enableServices();
             trigger("post.enable.services");
         });
         trigger("post.init");
@@ -425,7 +422,7 @@ var wbads = (function($, window, document, undefined) {
 
         if (param && value != '' && typeof value != 'undefined') {
             dfp_settings.global_targeting[param] = value;
-            googletag.pubads().setTargeting(param, value);
+            googletag_provider.pubads().setTargeting(param, value);
         }
         return _this;
     }
@@ -567,13 +564,13 @@ var wbads = (function($, window, document, undefined) {
                     } else {
                         debug(divId + " :: defineNewAdSlot :: NO VALID SIZES FOUND. will expand to element size by default");
                     }
-                    gptSlot = googletag.defineSlot(slotUnit, dfpAdSizes, divId).addService(googletag.pubads());
+                    gptSlot = googletag_provider.defineSlot(slotUnit, dfpAdSizes, divId).addService(googletag_provider.pubads());
                     if( dfp_settings.enable_single_request ) {
                         adDiv.data('unfilled', true);
                         defineCallback( "pre.display.ads", function() {
                             if( !adDiv.data('registered') ) {
                                pushCmd( function() {
-                                    googletag.display(divId);
+                                    googletag_provider.display(divId);
                                     adDiv.data('registered', true);
                                     debug(divId + " :: defineNewAdSlot :: pushing SRA display to cmd queue");
                                 });
@@ -589,13 +586,13 @@ var wbads = (function($, window, document, undefined) {
                         slotUnit += '/interstitial';
                     }
                     // note: these out-of-page slots have no size, but take up block-space if empty, so force collapse
-                    gptSlot = googletag.defineOutOfPageSlot(slotUnit, divId).addService(googletag.pubads()).setCollapseEmptyDiv(true);
+                    gptSlot = googletag_provider.defineOutOfPageSlot(slotUnit, divId).addService(googletag_provider.pubads()).setCollapseEmptyDiv(true);
                     if( dfp_settings.enable_single_request ) {
                         adDiv.data('unfilled', true);
                         defineCallback( "pre.display.ads", function() {
                             if( !adDiv.data('registered') ) {
                                pushCmd( function() {
-                                    googletag.display(divId);
+                                    googletag_provider.display(divId);
                                     adDiv.data('registered', true);
                                     debug(divId + " :: defineNewAdSlot :: pushing OutOfPageSlot SRA display to cmd queue");
                                 });
@@ -671,10 +668,10 @@ var wbads = (function($, window, document, undefined) {
 
                 if (dfp_settings.enable_single_request) {
                     if (refreshable) {
-                        pushCmd(function() { googletag.pubads().refresh([adSlotData]); });
+                        pushCmd(function() { googletag_provider.pubads().refresh([adSlotData]); });
                         debug("showAds :: refreshing ad " + adDiv.attr('id'));
                     } else if (unfilled) {
-                        pushCmd(function() { googletag.pubads().refresh([adSlotData]); });
+                        pushCmd(function() { googletag_provider.pubads().refresh([adSlotData]); });
                         debug("showAds :: filling unfilled ad " + adDiv.attr('id'));
                         adDiv.data('unfilled', false);
                     }
@@ -682,16 +679,16 @@ var wbads = (function($, window, document, undefined) {
                     if (refreshable) {
                         if (!registered) {
                             pushCmd(function() {
-                                googletag.display(adDiv.attr('id')); // display the refreshable slot
+                                googletag_provider.display(adDiv.attr('id')); // display the refreshable slot
                                 debug("showAds :: displaying ad " + adDiv.attr('id') + " - will REFRESH on next showAds()");
                                 adDiv.data('registered', true);
                             });
                         } else {
-                            pushCmd(function() { googletag.pubads().refresh([adSlotData]); }); // issue refresh call if already registered
+                            pushCmd(function() { googletag_provider.pubads().refresh([adSlotData]); }); // issue refresh call if already registered
                             debug("showAds :: refreshing ad " + adDiv.attr('id'));
                         }
                     } else if (!filled) {
-                        pushCmd(function() { googletag.display(adDiv.attr('id')); });
+                        pushCmd(function() { googletag_provider.display(adDiv.attr('id')); });
                         debug("showAds :: displaying ad " + adDiv.attr('id') + " for the first and only time!");
                         adDiv.data('filled', true);
                     } else {
@@ -1039,7 +1036,7 @@ var wbads = (function($, window, document, undefined) {
         var cmds = cmd.slice(0);
         cmd = [];
         for (var i=0; i<cmds.length; i++) {
-            googletag.cmd.push(cmds[i]);
+            googletag_provider.cmd.push(cmds[i]);
         }
     }
 
@@ -1064,6 +1061,21 @@ var wbads = (function($, window, document, undefined) {
     }
 
     /**
+     * Overwrites the googletag service with another provider that has the
+     * same interface as gpt.
+     *
+     * This is here to allow for adtech/exchanges to provide a "wrapped/enhanced"
+     * set of features to the default gpt process.
+     *
+     * @param {Object} googletag
+     * @return {*}
+     */
+    function setGoogletag(googletag) {
+      googletag_provider = googletag;
+      return _this;
+    }
+
+    /**
      * add privileged methods
      */
     _this.setDebug = setDebug;
@@ -1081,8 +1093,8 @@ var wbads = (function($, window, document, undefined) {
     _this.debug = debug;
     _this.showAds = showAds;
     _this.buildSlots = buildSlots;
+    _this.setGoogletag = setGoogletag;
     _this.init = init;
 
     return _this;
-})(window.jQuery, window, document);
-
+})(window.jQuery, googletag, window, document);
