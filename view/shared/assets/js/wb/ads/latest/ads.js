@@ -1071,13 +1071,26 @@ var wbads = (function($, googletag, window, document, undefined) {
      *
      * This is a horrible hack/wrapper as it's not really a wrapper for the entire
      * gpt service... only display and refresh so don't expect to call display_provider.pubads() and get:
-     * https://developers.google.com/doubleclick-gpt/reference#googletagpubadsservice
+     * @link https://developers.google.com/doubleclick-gpt/reference#googletagpubadsservice
      *
      * @param {Object} provider
      * @return {*}
      */
     function setDisplayProvider(provider) {
-        display_provider = provider;
+      display_provider = provider;
+      return _this;
+    }
+
+    /**
+     * Refreshes ad slots by calling the display provider "refresh".  Assumed to be gpt but may be wrapped.
+     * @link https://developers.google.com/doubleclick-gpt/reference#googletag.PubAdsService_refresh
+     *
+     * @param {Array} [opt_slots]
+     * @param {Object} [opt_options]
+     * @returns {*}
+     */
+    function refresh(opt_slots, opt_options) {
+        display_provider.pubads().refresh(opt_slots, opt_options);
         return _this;
     }
 
@@ -1100,6 +1113,7 @@ var wbads = (function($, googletag, window, document, undefined) {
     _this.showAds = showAds;
     _this.buildSlots = buildSlots;
     _this.setDisplayProvider = setDisplayProvider;
+    _this.refresh = refresh;
     _this.init = init;
 
     return _this;
