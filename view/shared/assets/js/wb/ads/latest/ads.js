@@ -27,9 +27,6 @@
  *
  *     wbads.showAds();
  *
-
- *
- *
  */
 /*jslint browser: true, devel: true, todo: true, regexp: true */
 /*global jQuery */
@@ -52,12 +49,13 @@ if( typeof googletag === "undefined" ){
 /** used when quantcast enabled */
 var _qevents = _qevents || [];
 
-var wbads = (function($, window, document, undefined) {
+var wbads = (function($, googletag, window, document, undefined) {
     'use strict';
 
     var _this = Object.create({});
     var settings;
     var dfp_settings;
+    var display_provider = googletag;
 
     /** @type {string} unit_name - calculated from <tt>required_params</tt> */
     var unit_name       = "",
@@ -228,7 +226,7 @@ var wbads = (function($, window, document, undefined) {
      */
     Slot.prototype.refresh = function () {
         if (this.hasGptSlot()) {
-            googletag.pubads().refresh([this.gpt_slot_object]);
+            display_provider.pubads().refresh([this.gpt_slot_object]);
         }
         return this;
     };
@@ -276,7 +274,6 @@ var wbads = (function($, window, document, undefined) {
      *  setTargeting(key, value)
      *  Sets values for targeting keys on a particular ad slot.
      */
-
 
     /*
      * sets up the config object. (to be called explicitly from the page ie wbads.init('8310','Ellen','Homepage') )
@@ -573,7 +570,7 @@ var wbads = (function($, window, document, undefined) {
                         defineCallback( "pre.display.ads", function() {
                             if( !adDiv.data('registered') ) {
                                pushCmd( function() {
-                                    googletag.display(divId);
+                                    display_provider.display(divId);
                                     adDiv.data('registered', true);
                                     debug(divId + " :: defineNewAdSlot :: pushing SRA display to cmd queue");
                                 });
@@ -595,7 +592,7 @@ var wbads = (function($, window, document, undefined) {
                         defineCallback( "pre.display.ads", function() {
                             if( !adDiv.data('registered') ) {
                                pushCmd( function() {
-                                    googletag.display(divId);
+                                    display_provider.display(divId);
                                     adDiv.data('registered', true);
                                     debug(divId + " :: defineNewAdSlot :: pushing OutOfPageSlot SRA display to cmd queue");
                                 });
@@ -671,10 +668,10 @@ var wbads = (function($, window, document, undefined) {
 
                 if (dfp_settings.enable_single_request) {
                     if (refreshable) {
-                        pushCmd(function() { googletag.pubads().refresh([adSlotData]); });
+                        pushCmd(function() { display_provider.pubads().refresh([adSlotData]); });
                         debug("showAds :: refreshing ad " + adDiv.attr('id'));
                     } else if (unfilled) {
-                        pushCmd(function() { googletag.pubads().refresh([adSlotData]); });
+                        pushCmd(function() { display_provider.pubads().refresh([adSlotData]); });
                         debug("showAds :: filling unfilled ad " + adDiv.attr('id'));
                         adDiv.data('unfilled', false);
                     }
@@ -682,16 +679,16 @@ var wbads = (function($, window, document, undefined) {
                     if (refreshable) {
                         if (!registered) {
                             pushCmd(function() {
-                                googletag.display(adDiv.attr('id')); // display the refreshable slot
+                                display_provider.display(adDiv.attr('id')); // display the refreshable slot
                                 debug("showAds :: displaying ad " + adDiv.attr('id') + " - will REFRESH on next showAds()");
                                 adDiv.data('registered', true);
                             });
                         } else {
-                            pushCmd(function() { googletag.pubads().refresh([adSlotData]); }); // issue refresh call if already registered
+                            pushCmd(function() { display_provider.pubads().refresh([adSlotData]); }); // issue refresh call if already registered
                             debug("showAds :: refreshing ad " + adDiv.attr('id'));
                         }
                     } else if (!filled) {
-                        pushCmd(function() { googletag.display(adDiv.attr('id')); });
+                        pushCmd(function() { display_provider.display(adDiv.attr('id')); });
                         debug("showAds :: displaying ad " + adDiv.attr('id') + " for the first and only time!");
                         adDiv.data('filled', true);
                     } else {
@@ -1064,6 +1061,40 @@ var wbads = (function($, window, document, undefined) {
     }
 
     /**
+     * Overwrites the display service (display/refresh) with another provider that gives you:
+     * - display()
+     * - pubads().refresh()
+     * - pubads().display()
+     *
+     * This is here to allow for adtech/exchanges to provide a "wrapped/enhanced"
+     * set of features to the default gpt process.
+     *
+     * This is a horrible hack/wrapper as it's not really a wrapper for the entire
+     * gpt service... only display and refresh so don't expect to call display_provider.pubads() and get:
+     * @link https://developers.google.com/doubleclick-gpt/reference#googletagpubadsservice
+     *
+     * @param {Object} provider
+     * @return {*}
+     */
+    function setDisplayProvider(provider) {
+      display_provider = provider;
+      return _this;
+    }
+
+    /**
+     * Refreshes ad slots by calling the display provider "refresh".  Assumed to be gpt but may be wrapped.
+     * @link https://developers.google.com/doubleclick-gpt/reference#googletag.PubAdsService_refresh
+     *
+     * @param {Array} [opt_slots]
+     * @param {Object} [opt_options]
+     * @returns {*}
+     */
+    function refresh(opt_slots, opt_options) {
+        display_provider.pubads().refresh(opt_slots, opt_options);
+        return _this;
+    }
+
+    /**
      * add privileged methods
      */
     _this.setDebug = setDebug;
@@ -1081,8 +1112,9 @@ var wbads = (function($, window, document, undefined) {
     _this.debug = debug;
     _this.showAds = showAds;
     _this.buildSlots = buildSlots;
+    _this.setDisplayProvider = setDisplayProvider;
+    _this.refresh = refresh;
     _this.init = init;
 
     return _this;
-})(window.jQuery, window, document);
-
+})(window.jQuery, googletag, window, document);
