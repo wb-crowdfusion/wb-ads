@@ -66,12 +66,14 @@
       results = m && encodeURIComponent(m[1]) || false;
     }
 
-    var deserialized = results.split('&');
-    results = {};
+    if (results !== false) {
+      var deserialized = results.split('&');
+      results = {};
 
-    for (var i = 0; i < deserialized.length; i++) {
-      var splitValues = deserialized[i].split('=');
-      results[splitValues[0]] = splitValues[1];
+      for (var i = 0; i < deserialized.length; i++) {
+        var splitValues = deserialized[i].split('=');
+        results[splitValues[0]] = splitValues[1];
+      }
     }
 
     return results || '';
