@@ -83,18 +83,19 @@
    * @param {Array} values
    */
   function toStorage(values) {
+    var randomAbString = '';
     for (var key in values) {
-      randomab += key + '=' + values[key] + '&';
+      randomAbString += key + '=' + values[key] + '&';
     }
 
-    randomab = randomab.slice(0, -1);
+    randomAbString = randomAbString.slice(0, -1);
 
     if (w.localStorage) {
-      w.localStorage[cookieName] = randomab;
+      w.localStorage[cookieName] = randomAbString;
     }
 
     if (navigator.cookieEnabled) {
-      d.cookie = [cookieName, '=', randomab, '; expires=', expiry.toUTCString(), '; path=/; domain=', cookieDomain].join('');
+      d.cookie = [cookieName, '=', randomAbString, '; expires=', expiry.toUTCString(), '; path=/; domain=', cookieDomain].join('');
     }
   }
 
