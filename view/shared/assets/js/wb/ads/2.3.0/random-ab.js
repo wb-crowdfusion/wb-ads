@@ -87,14 +87,14 @@
       randomab += key + '=' + values[key] + '&';
     }
 
-    randomab = wbrandomab.slice(0, -1);
+    randomab = randomab.slice(0, -1);
 
     if (w.localStorage) {
-      w.localStorage[cookieName] = wbrandomab;
+      w.localStorage[cookieName] = randomab;
     }
 
     if (navigator.cookieEnabled) {
-      d.cookie = [cookieName, '=', wbrandomab, '; expires=', expiry.toUTCString(), '; path=/; domain=', cookieDomain].join('');
+      d.cookie = [cookieName, '=', randomab, '; expires=', expiry.toUTCString(), '; path=/; domain=', cookieDomain].join('');
     }
   }
 
