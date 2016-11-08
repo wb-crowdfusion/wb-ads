@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v2.3.0
+* issue #18: implement method to randomize and persist ab values for testing.
+
+
 ## v2.2.8
 * issue #15: Create method to override googletag.
 
