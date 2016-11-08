@@ -88,6 +88,7 @@
       }
 
       for (var i = 0; i <= 20; i++) {
+        ab = get();
         googletag.pubads().setTargeting('ab' + i, ab);
       }
     }
