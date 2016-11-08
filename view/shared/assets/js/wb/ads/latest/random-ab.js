@@ -38,18 +38,24 @@
   expiry.setDate(expiry.getDate() + cookieExpires);
 
   /**
-   * Generates a random integer between 1 and 20
-   * @returns {int}
+   * Generates an array of 20 random integers between 1 and 20
+   * @returns {object}
    */
   var randomAB = function b() {
-    return (Math.floor(Math.random() * 20) + 1);
+    var twentyRandom = {};
+    for (var i = 0; i <= 20; i++) {
+      twentyRandom['a' + i] = (Math.floor(Math.random() * 20) + 1);
+    }
+
+    return twentyRandom;
   };
 
   /**
    * @returns {string}
    */
   function fromStorage() {
-    var m, results;
+    var m;
+    var results;
 
     if (w.localStorage) {
       results = w.localStorage[cookieName] || false;
@@ -60,13 +66,27 @@
       results = m && encodeURIComponent(m[1]) || false;
     }
 
+    var deserialized = results.split('&');
+    results = {};
+
+    for (var i = 0; i < deserialized.length; i++) {
+      var splitValues = deserialized[i].split('=');
+      results[splitValues[0]] = splitValues[1];
+    }
+
     return results || '';
   }
 
   /**
-   * @param {string} wbrandomab
+   * @param {Array} values
    */
-  function toStorage(wbrandomab) {
+  function toStorage(values) {
+    for (var key in values) {
+      wbrandomab += key + '=' + values[key] + '&';
+    }
+
+    wbrandomab = wbrandomab.slice(0, -1);
+
     if (w.localStorage) {
       w.localStorage[cookieName] = wbrandomab;
     }
@@ -77,21 +97,29 @@
   }
 
   /**
-   * Pushes random ab value into the pubads directly.
+   * Pushes random ab value into pubads directly.
    */
   function toGoogletag() {
     if (typeof googletag !== 'undefined' && typeof googletag.pubads == 'function') {
       var ab = get();
-      if ('OPTOUT' === ab) {
-        ab = '';
-        return;
-      }
-
-      for (var i = 0; i <= 20; i++) {
-        ab = get();
-        googletag.pubads().setTargeting('ab' + i, ab);
+      for (var key in ab) {
+        googletag.pubads().setTargeting(key, ab[key]);
       }
     }
+  }
+
+  /**
+   * Returns the ab test values that can be used in gpt cust_params.
+   * @link https://support.google.com/dfp_premium/answer/1080597?vid=1-635782176383068807-3377878002
+   *
+   * @param {boolean} encode - defaults to true, when true encodes the entire result with encodeURIComponent
+   * @return {string}
+   */
+  function getGptCustParams(encode) {
+    encode = encode || true;
+
+    var str = wbrandomab;
+    return encode ? encodeURIComponent(str) : str;
   }
 
   /**
@@ -102,23 +130,15 @@
   }
 
   /**
-   * @param {int} value
+   * @param {object} values
    */
-  function set(value) {
-    wbrandomab = value;
-    toStorage(wbrandomab);
+  function set(values) {
+    wbrandomab = values;
+    toStorage(values);
   }
 
   /**
-   * Flags the wbrandomab with OPTOUT which will cause it to be nullified in googletag.
-   */
-  function optout() {
-    wbrandomab = 'OPTOUT';
-    toStorage(wbrandomab);
-  }
-
-  /**
-   * @returns {int}
+   * @returns {string}
    */
   function generate() {
     set(randomAB());
@@ -130,9 +150,9 @@
   // public interface
   _this.get = get;
   _this.set = set;
-  _this.optout = optout;
   _this.regenerate = generate;
   _this.toGoogletag = toGoogletag;
+  _this.getGptCustParams = getGptCustParams;
   return _this;
 
 });
