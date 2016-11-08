@@ -44,7 +44,7 @@
   var randomAB = function b() {
     var twentyRandom = {};
     for (var i = 0; i < 20; i++) {
-      twentyRandom['a' + (i + 1)] = (Math.floor(Math.random() * 20) + 1);
+      twentyRandom['ab' + (i + 1)] = (Math.floor(Math.random() * 20) + 1);
     }
 
     return twentyRandom;
