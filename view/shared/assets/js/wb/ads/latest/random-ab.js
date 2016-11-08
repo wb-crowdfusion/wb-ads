@@ -30,7 +30,7 @@
   'use strict';
 
   var _this = {};
-  var wbrandomab;
+  var randomab;
   var cookieName = w.WB_RANDOMAB_COOKIE_NAME || 'wbrandomab';
   var cookieExpires = w.WB_RANDOMAB_COOKIE_EXPIRES || 365;
   var cookieDomain = (d.domain).match(/(.\.)?(\w+\.\w+)$/)[2];
@@ -43,8 +43,8 @@
    */
   var randomAB = function b() {
     var twentyRandom = {};
-    for (var i = 0; i <= 20; i++) {
-      twentyRandom['a' + i] = (Math.floor(Math.random() * 20) + 1);
+    for (var i = 0; i < 20; i++) {
+      twentyRandom['a' + (i + 1)] = (Math.floor(Math.random() * 20) + 1);
     }
 
     return twentyRandom;
@@ -84,10 +84,10 @@
    */
   function toStorage(values) {
     for (var key in values) {
-      wbrandomab += key + '=' + values[key] + '&';
+      randomab += key + '=' + values[key] + '&';
     }
 
-    wbrandomab = wbrandomab.slice(0, -1);
+    randomab = wbrandomab.slice(0, -1);
 
     if (w.localStorage) {
       w.localStorage[cookieName] = wbrandomab;
@@ -120,7 +120,7 @@
   function getGptCustParams(encode) {
     encode = encode || true;
 
-    var str = wbrandomab;
+    var str = randomab;
     return encode ? encodeURIComponent(str) : str;
   }
 
@@ -128,14 +128,14 @@
    * @returns {string}
    */
   function get() {
-    return wbrandomab || generate();
+    return randomab || generate();
   }
 
   /**
    * @param {object} values
    */
   function set(values) {
-    wbrandomab = values;
+    randomab = values;
     toStorage(values);
   }
 
@@ -144,10 +144,10 @@
    */
   function generate() {
     set(randomAB());
-    return wbrandomab;
+    return randomab;
   }
 
-  wbrandomab = fromStorage();
+  randomab = fromStorage();
 
   // public interface
   _this.get = get;
