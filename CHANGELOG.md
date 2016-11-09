@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v2.2.9
+* issue #18: [wb/ads/2.2.9/abt.js] implement method to randomize and persist ab values for testing.
+
+
 ## v2.2.8
 * issue #15: Create method to override googletag.
 
