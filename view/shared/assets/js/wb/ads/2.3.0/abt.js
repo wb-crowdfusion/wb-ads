@@ -97,7 +97,7 @@
   function getGptCustParams(encode) {
     encode = encode || true;
 
-    var str = 'abt=' + randomab;
+    var str = 'abt=' + abt;
 
     return encode ? encodeURIComponent(str) : str;
   }
