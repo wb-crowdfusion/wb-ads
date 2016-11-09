@@ -38,20 +38,15 @@
   expiry.setDate(expiry.getDate() + cookieExpires);
 
   /**
-   * Generates an array of 20 random integers between 1 and 20
-   * @returns {Array}
+   * Generates a random integer between 1 and 20
+   * @returns {int}
    */
   function randomAB() {
-    var twentyRandom = [];
-    for (var i = 0; i < 20; i++) {
-      twentyRandom.push((Math.floor(Math.random() * 20) + 1));
-    }
-
-    return twentyRandom;
+    return (Math.floor(Math.random() * 20) + 1);
   }
 
   /**
-   * @returns {Array}
+   * @returns {string} results
    */
   function fromStorage() {
     var m;
@@ -66,25 +61,19 @@
       results = m && encodeURIComponent(m[1]) || false;
     }
 
-    if (results !== false) {
-      results = results.split(',');
-    }
-
     return results || '';
   }
 
   /**
-   * @param {Array} values
+   * @param {int} value
    */
-  function toStorage(values) {
-    var randomAbString = values.join(',');
-
+  function toStorage(value) {
     if (w.localStorage) {
-      w.localStorage[cookieName] = randomAbString;
+      w.localStorage[cookieName] = value;
     }
 
     if (navigator.cookieEnabled) {
-      d.cookie = [cookieName, '=', randomAbString, '; expires=', expiry.toUTCString(), '; path=/; domain=', cookieDomain].join('');
+      d.cookie = [cookieName, '=', value, '; expires=', expiry.toUTCString(), '; path=/; domain=', cookieDomain].join('');
     }
   }
 
@@ -94,14 +83,12 @@
   function toGoogletag() {
     if (typeof googletag !== 'undefined' && typeof googletag.pubads == 'function') {
       var ab = get();
-      for (var i = 0; i < ab.length; i++) {
-        googletag.pubads().setTargeting('ab' + (i + 1), ab[i]);
-      }
+      googletag.pubads().setTargeting('abt', ab);
     }
   }
 
   /**
-   * Returns the ab test values that can be used in gpt cust_params.
+   * Returns the ab test value that can be used in gpt cust_params.
    * @link https://support.google.com/dfp_premium/answer/1080597?vid=1-635782176383068807-3377878002
    *
    * @param {boolean} encode - defaults to true, when true encodes the entire result with encodeURIComponent
@@ -110,24 +97,20 @@
   function getGptCustParams(encode) {
     encode = encode || true;
 
-    var str = '';
-    for (var i = 0; i < randomab.length; i++) {
-      str += 'ab' + (i + 1) + '=' + randomab[i] + '&';
-    }
-    str = str.slice(0, -1);
+    var str = 'abt=' + randomab;
 
     return encode ? encodeURIComponent(str) : str;
   }
 
   /**
-   * @returns {Array}
+   * @returns {int}
    */
   function get() {
     return randomab || generate();
   }
 
   /**
-   * @param {Array} values
+   * @param {int} values
    */
   function set(values) {
     randomab = values;
@@ -135,7 +118,7 @@
   }
 
   /**
-   * @returns {Array}
+   * @returns {int}
    */
   function generate() {
     set(randomAB());
