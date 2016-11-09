@@ -39,19 +39,19 @@
 
   /**
    * Generates an array of 20 random integers between 1 and 20
-   * @returns {object}
+   * @returns {Array}
    */
-  var randomAB = function b() {
-    var twentyRandom = {};
+  function randomAB() {
+    var twentyRandom = [];
     for (var i = 0; i < 20; i++) {
-      twentyRandom['ab' + (i + 1)] = (Math.floor(Math.random() * 20) + 1);
+      twentyRandom.push((Math.floor(Math.random() * 20) + 1));
     }
 
     return twentyRandom;
-  };
+  }
 
   /**
-   * @returns {string}
+   * @returns {Array}
    */
   function fromStorage() {
     var m;
@@ -67,13 +67,7 @@
     }
 
     if (results !== false) {
-      var deserialized = results.split('&');
-      results = {};
-
-      for (var i = 0; i < deserialized.length; i++) {
-        var splitValues = deserialized[i].split('=');
-        results[splitValues[0]] = splitValues[1];
-      }
+      results = results.split(',');
     }
 
     return results || '';
@@ -83,12 +77,7 @@
    * @param {Array} values
    */
   function toStorage(values) {
-    var randomAbString = '';
-    for (var key in values) {
-      randomAbString += key + '=' + values[key] + '&';
-    }
-
-    randomAbString = randomAbString.slice(0, -1);
+    var randomAbString = values.join(',');
 
     if (w.localStorage) {
       w.localStorage[cookieName] = randomAbString;
@@ -105,8 +94,8 @@
   function toGoogletag() {
     if (typeof googletag !== 'undefined' && typeof googletag.pubads == 'function') {
       var ab = get();
-      for (var key in ab) {
-        googletag.pubads().setTargeting(key, ab[key]);
+      for (var i = 0; i < ab.length; i++) {
+        googletag.pubads().setTargeting('ab' + (i + 1), ab[i]);
       }
     }
   }
@@ -121,19 +110,24 @@
   function getGptCustParams(encode) {
     encode = encode || true;
 
-    var str = randomab;
+    var str = '';
+    for (var i = 0; i < randomab.length; i++) {
+      str += 'ab' + (i + 1) + '=' + randomab[i] + '&';
+    }
+    str = str.slice(0, -1);
+
     return encode ? encodeURIComponent(str) : str;
   }
 
   /**
-   * @returns {string}
+   * @returns {Array}
    */
   function get() {
     return randomab || generate();
   }
 
   /**
-   * @param {object} values
+   * @param {Array} values
    */
   function set(values) {
     randomab = values;
@@ -141,7 +135,7 @@
   }
 
   /**
-   * @returns {string}
+   * @returns {Array}
    */
   function generate() {
     set(randomAB());
