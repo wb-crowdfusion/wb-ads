@@ -9,30 +9,30 @@
 
 (function(w, d, factory) {
   'use strict';
-  w.wbrandomab = factory(w, d);
+  w.wbabt = factory(w, d);
 
   // Montage Require
   if (typeof bootstrap === 'function') {
-    bootstrap('wbrandomab', w.wbrandomab);
+    bootstrap('wbabt', w.wbabt);
   }
 
   // CommonJS/Node
   if (typeof exports === 'object') {
-    module.exports = w.wbrandomab;
+    module.exports = w.wbabt;
   }
 
   // RequireJS
   if (typeof define === 'function' && define.amd) {
-    define('wbrandomab', [], w.wbrandomab);
+    define('wbabt', [], w.wbabt);
   }
 
 })(window, document, function(w, d, undefined) {
   'use strict';
 
   var _this = {};
-  var randomab;
-  var cookieName = w.WB_RANDOMAB_COOKIE_NAME || 'wbrandomab';
-  var cookieExpires = w.WB_RANDOMAB_COOKIE_EXPIRES || 365;
+  var abt;
+  var cookieName = w.WB_ABT_COOKIE_NAME || 'wbabt';
+  var cookieExpires = w.WB_ABT_COOKIE_EXPIRES || 365;
   var cookieDomain = (d.domain).match(/(.\.)?(\w+\.\w+)$/)[2];
   var expiry = new Date();
   expiry.setDate(expiry.getDate() + cookieExpires);
@@ -41,7 +41,7 @@
    * Generates a random integer between 1 and 20
    * @returns {int}
    */
-  function randomAB() {
+  function randomAbt() {
     return (Math.floor(Math.random() * 20) + 1);
   }
 
@@ -106,26 +106,26 @@
    * @returns {int}
    */
   function get() {
-    return randomab || generate();
+    return abt || generate();
   }
 
   /**
-   * @param {int} values
+   * @param {int} value
    */
-  function set(values) {
-    randomab = values;
-    toStorage(values);
+  function set(value) {
+    abt = value;
+    toStorage(value);
   }
 
   /**
    * @returns {int}
    */
   function generate() {
-    set(randomAB());
-    return randomab;
+    set(randomAbt());
+    return abt;
   }
 
-  randomab = fromStorage();
+  abt = fromStorage();
 
   // public interface
   _this.get = get;
