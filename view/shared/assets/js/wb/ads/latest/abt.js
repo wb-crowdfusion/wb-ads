@@ -32,7 +32,7 @@
   var _this = {};
   var abt;
   var cookieName = w.WB_ABT_COOKIE_NAME || 'wbabt';
-  var cookieExpires = w.WB_ABT_COOKIE_EXPIRES || 365;
+  var cookieExpires = w.WB_ABT_COOKIE_EXPIRES || 7;
   var cookieDomain = (d.domain).match(/(.\.)?(\w+\.\w+)$/)[2];
   var expiry = new Date();
   expiry.setDate(expiry.getDate() + cookieExpires);
@@ -82,8 +82,7 @@
    */
   function toGoogletag() {
     if (typeof googletag !== 'undefined' && typeof googletag.pubads == 'function') {
-      var ab = get();
-      googletag.pubads().setTargeting('abt', ab);
+      googletag.pubads().setTargeting('abt', get());
     }
   }
 
@@ -96,9 +95,7 @@
    */
   function getGptCustParams(encode) {
     encode = encode || true;
-
-    var str = 'abt=' + abt;
-
+    var str = 'abt=' + get();
     return encode ? encodeURIComponent(str) : str;
   }
 

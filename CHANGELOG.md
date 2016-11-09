@@ -1,8 +1,8 @@
 # CHANGELOG
 
 
-## v2.3.0
-* issue #18: implement method to randomize and persist ab values for testing.
+## v2.2.9
+* issue #18: [wb/ads/2.2.9/abt.js] implement method to randomize and persist ab values for testing.
 
 
 ## v2.2.8
