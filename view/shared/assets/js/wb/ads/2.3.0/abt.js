@@ -1,6 +1,6 @@
 /**
  * @overview
- * Generates a random value between 1 and 20 for ab testing in googletag/dfp ad calls.
+ * Generates a random value between 1 and 100 for ab testing in googletag/dfp ad calls.
  *
  * This script should be included AFTER googletag is loaded.
  */
