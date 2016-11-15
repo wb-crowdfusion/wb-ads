@@ -38,7 +38,7 @@
   expiry.setDate(expiry.getDate() + cookieExpires);
 
   /**
-   * Generates a random integer between 1 and 20
+   * Generates a random integer between 1 and 100
    * @returns {int}
    */
   function randomAbt() {
