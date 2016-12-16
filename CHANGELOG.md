@@ -1,7 +1,14 @@
 # CHANGELOG
 
+
+## v2.2.11
+* issue #22: [wb/ads/2.2.11/abt.js] BUG :: ABT value not getting passed to DFP from a "cold start".
+  Google requires a string... `googletag.pubads().setTargeting('abt', 'MUST BE A STRING');`.
+
+
 ## v2.2.10
 * issue #20: [wb/ads/2.2.10/abt.js] update random values to 1-100 for a/b testing ads.
+
 
 ## v2.2.9
 * issue #18: [wb/ads/2.2.9/abt.js] implement method to randomize and persist ab values for testing.
