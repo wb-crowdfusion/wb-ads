@@ -82,7 +82,7 @@
    */
   function toGoogletag() {
     if (typeof googletag !== 'undefined' && typeof googletag.pubads == 'function') {
-      googletag.pubads().setTargeting('abt', get());
+      googletag.pubads().setTargeting('abt', '' + get());
     }
   }
 
