@@ -94,7 +94,7 @@
    * @return {string}
    */
   function getGptCustParams(encode) {
-    encode = encode || true;
+    encode = undefined === encode ? true : encode;
     var str = 'abt=' + get();
     return encode ? encodeURIComponent(str) : str;
   }

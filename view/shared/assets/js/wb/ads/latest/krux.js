@@ -102,7 +102,7 @@ window.Krux||((Krux=function(){Krux.q.push(arguments)}).q=[]);
    * @return {string}
    */
   function getGptCustParams(encode) {
-    encode = encode || true;
+    encode = undefined === encode ? true : encode;
     var ksg = getSegments();
     var kuid = getUser();
     var khost = encodeURIComponent(d.location.hostname);

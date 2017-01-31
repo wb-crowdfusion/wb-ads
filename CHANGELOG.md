@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v2.2.12
+* issue #24: BUG :: Encode param not actually working. Fix 'true'/'false' value.
+
+
 ## v2.2.11
 * issue #22: [wb/ads/2.2.11/abt.js] BUG :: ABT value not getting passed to DFP from a "cold start".
   Google requires a string... `googletag.pubads().setTargeting('abt', 'MUST BE A STRING');`.
