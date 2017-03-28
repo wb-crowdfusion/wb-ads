@@ -999,7 +999,7 @@ var wbads = (function($, googletag, window, document, undefined) {
         var hashtags = [];
 
         /** todo: get hashtags automagically? or just allow via setGlobalTargeting/init dfp_settings */
-        if( dfp_settings.global_targeting["hahstags"][0] != "" ) {
+        if( dfp_settings.global_targeting["hashtags"][0] != "" ) {
             hashtags = dfp_settings.global_targeting["hashtags"];
         } else {
             hashtags = null;
