@@ -15,7 +15,7 @@
  *
  * @see <a href="https://support.google.com/dfp_premium/answer/1650154?hl=en">google's official documentation</a>
  *
- * @usage wbads.init( '4321', 'Mysite', 'Myzone', { debug_enabled: true }, { collapse_empty_divs: true, global_targeting: { category: "kids" } });
+ * @usage wbads.init( '4321', 'Mysite', { debug_enabled: true }, { collapse_empty_divs: true, global_targeting: { category: "kids" } });
  *          ...discovery method...
  *     <insert empty divs in body where ads go, using class="[insert selector here]">
  *          ...and/or programmatic method...
@@ -32,17 +32,17 @@
 /*global jQuery */
 /*** BEGIN REQUIRED GOOGLE DFP PREMIUM AD CODE ***/
 if( typeof googletag === "undefined" ){
-    var googletag = googletag || {};
-    googletag.cmd = googletag.cmd || [];
-    (function() {
-        var gads = document.createElement('script');
-        gads.async = true;
-        gads.type = 'text/javascript';
-        var useSSL = 'https:' == document.location.protocol;
-        gads.src = (useSSL ? 'https:' : 'http:') + '//www.googletagservices.com/tag/js/gpt.js';
-        var node = document.getElementsByTagName('script')[0];
-        node.parentNode.insertBefore(gads, node);
-    })();
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+  (function() {
+    var gads = document.createElement('script');
+    gads.async = true;
+    gads.type = 'text/javascript';
+    var useSSL = 'https:' == document.location.protocol;
+    gads.src = (useSSL ? 'https:' : 'http:') + '//www.googletagservices.com/tag/js/gpt.js';
+    var node = document.getElementsByTagName('script')[0];
+    node.parentNode.insertBefore(gads, node);
+  })();
 }
 /*** END REQUIRED GOOGLE DFP PREMIUM AD CODE ***/
 
@@ -58,12 +58,11 @@ var wbads = (function($, googletag, window, document, undefined) {
     var display_provider = googletag;
 
     /** @type {string} unit_name - calculated from <tt>required_params</tt> */
-    var unit_name       = "",
-        required_params = {
-            site_id:       "",
-            site_domain:   "",
-            ad_zone:       "article"
-        };
+    var unit_name  = "",
+      required_params = {
+          site_id:       "",
+          site_domain:   ""
+      };
 
     var module_defaults  = {
         /** @type {boolean} enabled - if false, ads won't render */
@@ -93,29 +92,29 @@ var wbads = (function($, googletag, window, document, undefined) {
 
     /** @type {object} dfp_options - page-wide options to pass to the google ad service */
     var dfp_defaults     = {
-            collapse_empty_divs:        false,
-            disable_initial_load:       false,  // If webpage has an auto-play video player, set this to true
-            enable_single_request:      false,
-            enable_async_rendering:     true,
-            enable_video_ads:           false,
-            no_fetch:                   false,
-            disable_publisher_console:  false,
-            category_exclusion:         [],     // array of categories
-            /**
-             * qcs : The format should be ['####', '####', '####', 'etc']
-             * category : channel from cf
-             * tag : hashtags from cf
-             * url : the URL of the page after .com. eg ellentv.com/photos the url value should be ['/photos']
-             * adtest : if "?adtest=keyword" appended to URL then pass ['keyword'] as value
-             */
-            global_targeting: {
-                qcs:                    {},
-                category:               "",
-                channel:                "", /** duplicate of category for consistency */
-                tag:                    [],
-                url:                    "",
-                adtest:                 ""
-            } /** todo: consider removing these explicit defs but they don't hurt */
+        collapse_empty_divs:        false,
+        disable_initial_load:       false,  // If webpage has an auto-play video player, set this to true
+        enable_single_request:      false,
+        enable_async_rendering:     true,
+        enable_video_ads:           false,
+        no_fetch:                   false,
+        disable_publisher_console:  false,
+        category_exclusion:         [],     // array of categories
+        /**
+         * qcs : The format should be ['####', '####', '####', 'etc']
+         * category : channel from cf
+         * tag : hashtags from cf
+         * url : the URL of the page after .com. eg ellentv.com/photos the url value should be ['/photos']
+         * adtest : if "?adtest=keyword" appended to URL then pass ['keyword'] as value
+         */
+        global_targeting: {
+            qcs:                    {},
+            category:               "",
+            channel:                "", /** duplicate of category for consistency */
+            hashtags:               [],
+            url:                    "",
+            adtest:                 ""
+        } /** todo: consider removing these explicit defs but they don't hurt */
     };
 
     /** cmd queue for googletag */
@@ -123,7 +122,7 @@ var wbads = (function($, googletag, window, document, undefined) {
 
     /** @type {Object} slots - hash table of created local slot objects */
     var slots = {},
-        slot_count = 0;
+      slot_count = 0;
 
     /** @type {object}
      * todo: find out if adops even has device-specific size mappings
@@ -563,7 +562,7 @@ var wbads = (function($, googletag, window, document, undefined) {
                         adDiv.data('unfilled', true);
                         defineCallback( "pre.display.ads", function() {
                             if( !adDiv.data('registered') ) {
-                               pushCmd( function() {
+                                pushCmd( function() {
                                     display_provider.display(divId);
                                     adDiv.data('registered', true);
                                     debug(divId + " :: defineNewAdSlot :: pushing SRA display to cmd queue");
@@ -585,7 +584,7 @@ var wbads = (function($, googletag, window, document, undefined) {
                         adDiv.data('unfilled', true);
                         defineCallback( "pre.display.ads", function() {
                             if( !adDiv.data('registered') ) {
-                               pushCmd( function() {
+                                pushCmd( function() {
                                     display_provider.display(divId);
                                     adDiv.data('registered', true);
                                     debug(divId + " :: defineNewAdSlot :: pushing OutOfPageSlot SRA display to cmd queue");
@@ -971,7 +970,7 @@ var wbads = (function($, googletag, window, document, undefined) {
         for (var i=0; i < _qsegs.length;i++) {
             var qArr = _qsegs[i].split("_");
             //if (qArr.length > 1)
-                //segs += ";qcseg=" + qArr[1];
+            //segs += ";qcseg=" + qArr[1];
             segs.push(qArr[1]);
         }
         settings.quantcast.segs = segs;
@@ -994,24 +993,19 @@ var wbads = (function($, googletag, window, document, undefined) {
     }
 
     /**
-     * gets the hashtags (currently passed as "tag" for AdOps)
+     * gets the hashtags (currently passed as "hashtags" for AdOps)
      */
     function getHashtags() {
         var hashtags = [];
 
         /** todo: get hashtags automagically? or just allow via setGlobalTargeting/init dfp_settings */
-        if( dfp_settings.global_targeting["tag"] != "" ) {
-            hashtags = dfp_settings.global_targeting["tag"].split(",");
-            var tagString = "";
-            $.each(hashtags, function(index, tag) {
-                debug("getHashtags :: pushing tag:" + tag);
-                if( tagString != "" ) tagString += ",";
-                tagString += $.trim(tag);
-            });
-            dfp_settings.global_targeting["tag"] = tagString;
+        if( dfp_settings.global_targeting["hahstags"][0] != "" ) {
+            hashtags = dfp_settings.global_targeting["hashtags"];
+        } else {
+            hashtags = null;
         }
 
-        debug("getHashtags :: found hashtags:" + dfp_settings.global_targeting["tag"]);
+        debug("getHashtags :: found hashtags:" + dfp_settings.global_targeting["hashtags"]);
     }
 
     /**
@@ -1071,8 +1065,8 @@ var wbads = (function($, googletag, window, document, undefined) {
      * @return {*}
      */
     function setDisplayProvider(provider) {
-      display_provider = provider;
-      return _this;
+        display_provider = provider;
+        return _this;
     }
 
     /**
