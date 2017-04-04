@@ -15,7 +15,7 @@
  *
  * @see <a href="https://support.google.com/dfp_premium/answer/1650154?hl=en">google's official documentation</a>
  *
- * @usage wbads.init( '4321', 'Mysite', { debug_enabled: true }, { collapse_empty_divs: true, global_targeting: { category: "kids" } });
+ * @usage wbads.init( '4321', 'Mysite', 'Myzone', { debug_enabled: true }, { collapse_empty_divs: true, global_targeting: { category: "kids" } });
  *          ...discovery method...
  *     <insert empty divs in body where ads go, using class="[insert selector here]">
  *          ...and/or programmatic method...
@@ -58,7 +58,7 @@ var wbads = (function($, googletag, window, document, undefined) {
     var display_provider = googletag;
 
     /** @type {string} unit_name - calculated from <tt>required_params</tt> */
-    var unit_name  = "",
+    var unit_name = "",
       required_params = {
           site_id:       "",
           site_domain:   ""
@@ -275,32 +275,38 @@ var wbads = (function($, googletag, window, document, undefined) {
      */
 
     /*
-     * sets up the config object. (to be called explicitly from the page ie wbads.init('8310','Ellen') )
+     * sets up the config object. (to be called explicitly from the page ie wbads.init('8310','Ellen','Homepage') )
      * @param {string} site_id a code provided by AdOps representing the site / partner
-     * @param {string} site_domain a code provided by AdOps representing the specific site subdomain  NOTE: 1st 2 required_params will be combined to form a unit_name
+     * @param {string} site_domain a code provided by AdOps representing the specific site subdomain
+     * @param {string} ad_zone a code representing the current page section NOTE: 1st 3 required_params will be combined to form a unit_name
      * @param {object} options module-specific settings, default-overrides
      * @param {object} dfp_options googledfp-specific settings, default-overrides
-     * eg like... init("55123377", "ellen", { debug_enabled: true }, {} )
+     * eg like... init("55123377", "ellen", "home", { debug_enabled: true }, {} )
      *
      * @return {*}
      *
      */
-    function init(site_id, site_domain, options, dfp_options) {
-        var initArgs = {site_id: site_id, site_domain: site_domain, options: options, dfp_options: dfp_options};
+    function init(site_id, site_domain, ad_zone, options, dfp_options) {
+        var initArgs = {site_id: site_id, site_domain: site_domain, ad_zone: ad_zone, options: options, dfp_options: dfp_options};
         trigger("filter.init.args", initArgs);
         site_id = initArgs.site_id;
         site_domain = initArgs.site_domain;
+        ad_zone = initArgs.ad_zone;
         options = initArgs.options;
         dfp_options = initArgs.dfp_options;
 
         settings = $.extend({}, module_defaults, options);
         dfp_settings = $.extend({}, dfp_defaults, dfp_options);
 
-        // if required params invalid or missing, or if !settings.enabled, nothing can happen
+        // if req'd params invalid or missing, or if !settings.enabled, nothing can happen
         // these parameters combined form the networkId
         settings.enabled = setRequiredParam("site_id", site_id) && setRequiredParam("site_domain", site_domain);
 
-        unit_name = "/" + getRequiredParam("site_id") + "/" + getRequiredParam("site_domain");
+        // see ticket #185: adzone can be blank for tmz ros ads, still explicitly required but empty string now valid
+        var hasAdzone = ad_zone ? true : false;
+        setRequiredParam("ad_zone", ad_zone);
+
+        unit_name = "/" + getRequiredParam("site_id") + "/" + getRequiredParam("site_domain") + (hasAdzone ? "/" + getRequiredParam("ad_zone") : "");
 
         if (!settings.enabled) {
             debug("init :: WBADS ads disabled. no ad slots will be created or displayed");
