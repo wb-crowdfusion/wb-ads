@@ -276,7 +276,7 @@ var wbads = (function($, googletag, window, document, undefined) {
      * @param {string} ad_unit_path a code provided by AdOps representing the site / partner
      * @param {object} options module-specific settings, default-overrides
      * @param {object} dfp_options googledfp-specific settings, default-overrides
-     * eg like... init("55123377/ellen/home", { debug_enabled: true }, {} )
+     * eg like... init("networkid/siteid[/optional unit name]", { debug_enabled: true }, {} )
      *
      * @return {*}
      *
@@ -296,7 +296,7 @@ var wbads = (function($, googletag, window, document, undefined) {
         // these parameters combined form the networkId
         settings.enabled = setRequiredParam("ad_unit_path", ad_unit_path);
 
-        unit_name = "/" + getRequiredParam("ad_unit_path");
+        unit_name = ad_unit_path;
 
         if (!settings.enabled) {
             debug("init :: WBADS ads disabled. no ad slots will be created or displayed");
