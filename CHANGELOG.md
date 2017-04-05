@@ -1,8 +1,8 @@
 # CHANGELOG
 
 
-## v2.3.0
-* issue #28: Move ad_zone out of ad unit name and into global targeting parameters
+## v3.0.0
+* issue #28: Update ad_unit to full ad_unit_path, move ad_zone out of ad unit name and into global targeting parameters
 
 
 ## v2.2.12
