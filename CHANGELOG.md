@@ -1,6 +1,10 @@
 # CHANGELOG
 
 
+## v3.0.0
+* issue #28: Update ad_unit to full ad_unit_path, move ad_zone out of ad unit name and into global targeting parameters
+
+
 ## v2.2.12
 * issue #24: BUG :: Encode param not actually working. Fix 'true'/'false' value.
 
