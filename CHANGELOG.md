@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## v3.1.0
+* issue #30: Remove ad vendor files to eliminate XSS vulnerabilities per Google
 
 ## v3.0.0
 * issue #28: Update ad_unit to full ad_unit_path, move ad_zone out of ad unit name and into global targeting parameters
