@@ -9,7 +9,7 @@
   <fieldset>
     <title>Integration Code</title>
     <group>
-      <checkbox id="#internal" width="full"/>
+      <checkbox id="#is-internal" width="full"/>
       <textarea id="#tracker" width="full" rows="5"/>
       <textarea id="#htmlhead" width="full" rows="5"/>
       <textarea id="#badge" width="full" rows="5"/>
