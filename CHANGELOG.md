@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## v3.2.0
+* ticket 6683 - adding boolean field 'internal' so that we can differentiate between internal and external sponsorships
+
 ## v3.1.0
 * issue #30: Remove ad vendor files to eliminate XSS vulnerabilities per Google
 
