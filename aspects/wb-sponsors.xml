@@ -27,6 +27,11 @@
       <title>List Badge</title>
       <validation datatype="html" allowedtags="*" max="64K"/>
     </meta>
+    <meta id="#is-internal">
+      <title>Internal Sponsorship?</title>
+      <validation datatype="boolean" />
+      <default>false</default>
+    </meta>
   </meta_defs>
 
 </aspect>
