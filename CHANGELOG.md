@@ -1,5 +1,7 @@
 # CHANGELOG
 
+## v3.2.0
+* issue #33: Add '#sponsor-type' in favor of '#is-internal' to support more than 2 different sponsor types.
 
 ## v3.1.0
 * Add boolean field '#is-internal' so that we can differentiate between internal and external sponsorships.

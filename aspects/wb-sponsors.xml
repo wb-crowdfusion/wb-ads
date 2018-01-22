@@ -27,10 +27,10 @@
       <title>List Badge</title>
       <validation datatype="html" allowedtags="*" max="64K"/>
     </meta>
-    <meta id="#is-internal">
-      <title>Internal Sponsorship?</title>
-      <validation datatype="boolean" />
-      <default>false</default>
+    <meta id="#sponsor-type">
+      <title>Sponsor Type</title>
+      <validation datatype="string" match="advertorial|external|internal" max="255"/>
+      <default>external</default>
     </meta>
   </meta_defs>
 
