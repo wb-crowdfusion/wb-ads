@@ -9,7 +9,11 @@
   <fieldset>
     <title>Integration Code</title>
     <group>
-      <checkbox id="#sponsor-type" width="full" rows="5"/>
+      <dropdown id="#sponsor-type" width="quarter">
+        <option value="external">External</option>
+        <option value="advertorial">Advertorial</option>
+        <option value="internal">Internal</option>
+      </dropdown>
       <textarea id="#tracker" width="full" rows="5"/>
       <textarea id="#htmlhead" width="full" rows="5"/>
       <textarea id="#badge" width="full" rows="5"/>
